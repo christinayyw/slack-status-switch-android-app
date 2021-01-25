@@ -1,4 +1,5 @@
-*Cred*
+app/src/main/java/com/example/slackstatusswitch/Cred.kt
+*Cred.kt
 # Built application files
 *.apk
 *.aar
