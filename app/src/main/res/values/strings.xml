@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SlackStatusSwitch</string>
+    <string name="slack_status_switch">Slack Status Switch</string>
+</resources>
