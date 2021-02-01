@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SlackStatusSwitch</string>
     <string name="slack_status_switch">Slack Status Switch</string>
+    <string name="set_status">Set Status:</string>
 </resources>
