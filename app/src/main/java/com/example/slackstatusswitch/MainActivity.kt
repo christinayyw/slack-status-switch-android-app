@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         offlineSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             offline(isChecked)
         }
-        getUserStatus()
+        getUserStatus("info")
+        getUserStatus("presence")
 
 
     }
@@ -131,24 +132,43 @@ class MainActivity : AppCompatActivity() {
         VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest)
     }
 
-    private fun getUserStatus() {
+    private fun getUserStatus(category: String = "info") {
         var slackToken = Cred.slackToken
+        var slackUser = Cred.slackUser
         var host = "https://slack.com"
-        var endpoint = "api/users.info"
+        var endpoint = ""
+
+        when (category) {
+            "info" -> endpoint = "api/users.info"
+            "presence" -> endpoint = "api/users.getPresence"
+        }
+
         var url = "$host/$endpoint"
 
         val jsonObjectRequest = object: StringRequest(Request.Method.POST, url,
                 Response.Listener { response ->
 //                    Toast.makeText(this, "Response to $endpoint: $response", Toast.LENGTH_SHORT).show()
-                    setUserStatus(JSONObject(response))
+                    when (category) {
+                        "info" -> setUserStatus(JSONObject(response))
+                        "presence" -> {
+                            val is_manual_offline = JSONObject(response).getBoolean("manual_away")
+                            if (is_manual_offline){
+                                var offlineSwitch: Switch = findViewById(R.id.offlineSwitch)
+                                offlineSwitch.setChecked(true);
+                            }
+
+                        }
+                    }
+
                 },
+
                 Response.ErrorListener { error ->
                     Toast.makeText(this, "Error to $endpoint: $error.message", Toast.LENGTH_SHORT).show()
                 }
         ){
             override fun getParams(): MutableMap<String, String> {
                 val params = HashMap<String, String>()
-                params["user"] = "U5JTK5E8G"
+                params["user"] = slackUser
                 return params
             }
             override fun getHeaders(): MutableMap<String, String> {

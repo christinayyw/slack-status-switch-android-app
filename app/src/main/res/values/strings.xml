@@ -2,4 +2,6 @@
     <string name="app_name">SlackStatusSwitch</string>
     <string name="slack_status_switch">Slack Status Switch</string>
     <string name="set_status">Set Status:</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
